@@ -15,6 +15,7 @@ const PLACEHOLDER_SPRITE =
 const PIKALYTICS_SLUG_ALIASES: Record<string, string> = {
   'floette-mega': 'floette_eternal_mega',
   floette: 'floette_eternal',
+  'kommo-o': 'kommoo',
 };
 
 /**

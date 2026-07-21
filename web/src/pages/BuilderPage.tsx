@@ -4,9 +4,11 @@ import { useAsync } from '../hooks/useAsync';
 import type { PokemonSummary } from '../api/types';
 import { TypeBadge } from '../components/TypeBadge';
 import { SpriteImg } from '../components/SpriteImg';
+import { TeamQuiz } from '../components/TeamQuiz';
 import { CHART_TYPES, defensiveMultiplier, offensiveCoverage } from '../domain/typeChart';
 
 const MAX_TEAM_SIZE = 6;
+type BuilderMode = 'manual' | 'quiz';
 
 /**
  * Team Builder (MVP): adicionar até 6 Pokémon por busca, ver cobertura
@@ -18,6 +20,7 @@ const MAX_TEAM_SIZE = 6;
  * uma primeira visão de sinergia de tipos.
  */
 export function BuilderPage() {
+  const [mode, setMode] = useState<BuilderMode>('manual');
   const [team, setTeam] = useState<PokemonSummary[]>([]);
   const [search, setSearch] = useState('');
 
@@ -76,10 +79,31 @@ export function BuilderPage() {
         <h1 style={{ marginBottom: 4 }}>Team Builder</h1>
         <p style={{ color: 'var(--md-on-surface-variant)' }}>
           Monte um time (até {MAX_TEAM_SIZE} Pokémon) e veja cobertura ofensiva e sinergia defensiva
-          em tempo real. Cálculo de EVs/nature detalhado fica nas Ferramentas.
+          em tempo real, ou responda um quiz rápido pra gente recomendar um time pronto do catálogo.
         </p>
       </section>
 
+      <section style={{ display: 'flex', gap: 8 }}>
+        <button
+          type="button"
+          className={mode === 'manual' ? 'md-button' : 'md-button secondary'}
+          onClick={() => setMode('manual')}
+        >
+          Montar manualmente
+        </button>
+        <button
+          type="button"
+          className={mode === 'quiz' ? 'md-button' : 'md-button secondary'}
+          onClick={() => setMode('quiz')}
+        >
+          Recomendar um time pra mim
+        </button>
+      </section>
+
+      {mode === 'quiz' && <TeamQuiz />}
+
+      {mode === 'manual' && (
+        <>
       <section className="md-card">
         <input
           className="md-input"
@@ -212,6 +236,8 @@ export function BuilderPage() {
               ))}
             </div>
           </section>
+        </>
+      )}
         </>
       )}
     </div>
