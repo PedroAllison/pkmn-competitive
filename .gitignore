@@ -1,0 +1,23 @@
+# Dependências
+node_modules/
+
+# Builds
+dist/
+*.tsbuildinfo
+
+# Ambiente
+.env
+.env.local
+*.local
+
+# Logs
+*.log
+
+# Editor / SO
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Artefatos de build acidentais do Vite (fonte de verdade é vite.config.ts)
+web/vite.config.js
+web/vite.config.d.ts

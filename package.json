@@ -1,0 +1,16 @@
+{
+  "name": "pokecompanion",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo do PokéCompanion (backend + web) — script único para subir tudo em dev.",
+  "scripts": {
+    "predev": "node scripts/ensure-wsl.js",
+    "dev": "concurrently -n backend,web -c blue,green \"npm run dev --prefix backend\" \"npm run dev --prefix web\"",
+    "install:all": "npm install --prefix backend && npm install --prefix web",
+    "build": "npm run build --prefix backend && npm run build --prefix web",
+    "setup": "npm run install:all && npm run migrate --prefix backend && npm run seed --prefix backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

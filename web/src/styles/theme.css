@@ -1,0 +1,167 @@
+/*
+ * Tokens de tema inspirados em Material Design 3.
+ * Alternância clara/escura via atributo `data-theme` na tag <html>
+ * (ver `src/hooks/useTheme.ts`), com fallback para a preferência do SO.
+ */
+
+:root {
+  --md-primary: #3f6836;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #bff0ac;
+  --md-on-primary-container: #002200;
+
+  --md-secondary: #55624c;
+  --md-surface: #f7fbf0;
+  --md-surface-variant: #dfe4d6;
+  --md-on-surface: #191d16;
+  --md-on-surface-variant: #43483e;
+  --md-outline: #73796d;
+
+  --md-error: #ba1a1a;
+  --md-success: #2e7d32;
+  --md-warning: #8a6d00;
+
+  --md-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
+  --md-radius-sm: 8px;
+  --md-radius-md: 16px;
+  --md-radius-lg: 28px;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --md-primary: #a4d391;
+  --md-on-primary: #16380a;
+  --md-primary-container: #274e1d;
+  --md-on-primary-container: #bff0ac;
+
+  --md-secondary: #bdcbb1;
+  --md-surface: #10140d;
+  --md-surface-variant: #43483e;
+  --md-on-surface: #e1e4d8;
+  --md-on-surface-variant: #c3c8b9;
+  --md-outline: #8d9387;
+
+  --md-error: #ffb4ab;
+  --md-success: #7fd68a;
+  --md-warning: #f2c94c;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100%;
+}
+
+.app-content {
+  flex: 1;
+  padding: 24px clamp(16px, 4vw, 48px);
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.md-card {
+  background: var(--md-surface-variant);
+  border-radius: var(--md-radius-md);
+  padding: 20px;
+  box-shadow: var(--md-elevation-1);
+}
+
+.md-button {
+  border: none;
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.md-button:hover {
+  opacity: 0.9;
+}
+
+.md-button:active {
+  transform: scale(0.98);
+}
+
+.md-button.secondary {
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline);
+}
+
+.md-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.md-input {
+  border-radius: var(--md-radius-sm);
+  border: 1px solid var(--md-outline);
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge.ok {
+  background: color-mix(in srgb, var(--md-success) 20%, transparent);
+  color: var(--md-success);
+}
+
+.badge.error {
+  background: color-mix(in srgb, var(--md-error) 20%, transparent);
+  color: var(--md-error);
+}
+
+.badge.pending {
+  background: color-mix(in srgb, var(--md-outline) 25%, transparent);
+  color: var(--md-on-surface-variant);
+}
+
+.badge.warning {
+  background: color-mix(in srgb, var(--md-warning) 25%, transparent);
+  color: var(--md-warning);
+}
