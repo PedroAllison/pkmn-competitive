@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getTeam } from '../api/teams';
 import { useAsync } from '../hooks/useAsync';
+import { useFormats } from '../hooks/useFormats';
 import { SpriteImg } from '../components/SpriteImg';
 
 /** Detalhe de um time: paste do Showdown (copiável), estratégia e leads. */
 export function TeamDetailPage() {
   const { id = '' } = useParams<{ id: string }>();
   const { data, loading, error } = useAsync(() => getTeam(id), [id]);
+  const { formats } = useFormats();
   const [copied, setCopied] = useState(false);
 
   if (loading) {
@@ -48,7 +50,9 @@ export function TeamDetailPage() {
               {team.placement ? ` · ${team.placement}` : ''}
             </p>
           </div>
-          <span className="badge pending">{team.format}</span>
+          <span className="badge pending">
+            {formats.find((f) => f.id === team.format)?.label ?? team.format}
+          </span>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
           {team.pokemon.map((p) => (

@@ -47,10 +47,7 @@ export function TeamsPage() {
               className="md-card"
               style={{ textDecoration: 'none', color: 'var(--md-on-surface)' }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
-                <strong>{team.name}</strong>
-                <span className="badge pending">{team.format}</span>
-              </div>
+              <strong>{team.name}</strong>
               <p style={{ fontSize: '0.8rem', color: 'var(--md-on-surface-variant)', margin: '4px 0 8px' }}>
                 {team.author}
                 {team.event ? ` · ${team.event}` : ''}

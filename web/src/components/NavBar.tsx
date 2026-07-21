@@ -30,7 +30,7 @@ export function NavBar() {
         zIndex: 10,
       }}
     >
-      <strong style={{ fontSize: '1.1rem' }}>PokéCompanion</strong>
+      <strong style={{ fontSize: '1.1rem' }}>Lab Pokémon</strong>
       <nav style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
         {links.map((link) => (
           <NavLink

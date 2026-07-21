@@ -1,4 +1,4 @@
-# PokéCompanion
+# Lab Pokémon
 
 Site de referência para o competitivo de **Pokémon Champions**: Pokédex filtrável por formato/regulation, times de exemplo prontos para importar no Pokémon Showdown, e um Team Builder básico com análise de cobertura de tipos.
 

@@ -22,7 +22,13 @@ export function BuilderPage() {
   const [search, setSearch] = useState('');
 
   const { data: searchResults, loading } = useAsync(
-    () => (search.trim() ? listPokemon({ search: search.trim(), limit: 8 }) : Promise.resolve(null)),
+    // `game: 'champions'` restringe a busca ao roster atual do Champions —
+    // sem isso, o backend cai no fetch-on-miss da PokéAPI e traz qualquer
+    // Pokémon da Dex nacional, incluindo espécies que não existem no jogo.
+    () =>
+      search.trim()
+        ? listPokemon({ search: search.trim(), game: 'champions', limit: 8 })
+        : Promise.resolve(null),
     [search],
   );
 
