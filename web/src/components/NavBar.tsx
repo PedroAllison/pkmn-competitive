@@ -22,6 +22,9 @@ export function NavBar() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        rowGap: 8,
+        columnGap: 16,
         padding: '14px clamp(16px, 4vw, 48px)',
         borderBottom: '1px solid var(--md-outline)',
         position: 'sticky',
@@ -30,8 +33,8 @@ export function NavBar() {
         zIndex: 10,
       }}
     >
-      <strong style={{ fontSize: '1.1rem' }}>Lab Pokémon</strong>
-      <nav style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+      <strong style={{ fontSize: '1.1rem', whiteSpace: 'nowrap' }}>Lab Pokémon</strong>
+      <nav style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-start' }}>
         {links.map((link) => (
           <NavLink
             key={link.to}

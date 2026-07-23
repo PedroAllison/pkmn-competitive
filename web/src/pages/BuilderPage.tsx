@@ -6,6 +6,7 @@ import { TypeBadge } from '../components/TypeBadge';
 import { SpriteImg } from '../components/SpriteImg';
 import { TeamQuiz } from '../components/TeamQuiz';
 import { CHART_TYPES, defensiveMultiplier, offensiveCoverage } from '../domain/typeChart';
+import { analyzeTeam } from '../domain/teamAnalysis';
 
 const MAX_TEAM_SIZE = 6;
 type BuilderMode = 'manual' | 'quiz';
@@ -71,6 +72,11 @@ export function BuilderPage() {
   const sortedBySpeed = useMemo(
     () => [...team].sort((a, b) => b.baseStats.spe - a.baseStats.spe),
     [team],
+  );
+
+  const analysis = useMemo(
+    () => analyzeTeam(team, covered, uncovered, defensiveCounts),
+    [team, covered, uncovered, defensiveCounts],
   );
 
   return (
@@ -203,18 +209,38 @@ export function BuilderPage() {
             <p style={{ fontSize: '0.8rem', color: 'var(--md-on-surface-variant)' }}>
               Quantos membros do time são fracos, resistem ou são imunes a cada tipo de ataque.
             </p>
-            <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
+            <div
+              style={{
+                display: 'grid',
+                gap: '2px 16px',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
+              }}
+            >
               {CHART_TYPES.map((t) => {
                 const c = defensiveCounts[t];
                 return (
-                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem' }}>
+                  <div
+                    key={t}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: 8,
+                      fontSize: '0.78rem',
+                      minHeight: 36,
+                      padding: '4px 0',
+                      borderBottom: '1px solid var(--md-outline)',
+                    }}
+                  >
                     <TypeBadge type={t} />
-                    {c.weak > 0 && <span className="badge error">{c.weak} fraco</span>}
-                    {c.resist > 0 && <span className="badge ok">{c.resist} resiste</span>}
-                    {c.immune > 0 && <span className="badge pending">{c.immune} imune</span>}
-                    {c.weak === 0 && c.resist === 0 && c.immune === 0 && (
-                      <span style={{ color: 'var(--md-on-surface-variant)' }}>neutro</span>
-                    )}
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                      {c.weak > 0 && <span className="badge error">{c.weak} fraco</span>}
+                      {c.resist > 0 && <span className="badge ok">{c.resist} resiste</span>}
+                      {c.immune > 0 && <span className="badge pending">{c.immune} imune</span>}
+                      {c.weak === 0 && c.resist === 0 && c.immune === 0 && (
+                        <span style={{ color: 'var(--md-on-surface-variant)' }}>neutro</span>
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -234,6 +260,42 @@ export function BuilderPage() {
                   <strong>{p.baseStats.spe}</strong>
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section className="md-card">
+            <h3 style={{ marginTop: 0 }}>Análise do time</h3>
+            <p style={{ fontSize: '0.8rem', color: 'var(--md-on-surface-variant)' }}>
+              Estimativa a partir de tipo e base stats (sem moveset/item escolhidos ainda) — dá um norte
+              de função e de como jogar, mas não substitui um set real como os dos Times prontos.
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gap: 12,
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                marginTop: 12,
+              }}
+            >
+              {analysis.perPokemon.map(({ pokemon, role, blurb }) => (
+                <div key={pokemon.id} style={{ display: 'flex', gap: 10 }}>
+                  <SpriteImg src={pokemon.spriteUrl} name={pokemon.name} alt={pokemon.displayName} size={40} />
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>{pokemon.displayName}</div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--md-primary)', fontWeight: 600, marginBottom: 2 }}>
+                      {role}
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: 'var(--md-on-surface-variant)', margin: 0 }}>{blurb}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ borderTop: '1px solid var(--md-outline)', marginTop: 16, paddingTop: 16 }}>
+              <strong style={{ fontSize: '0.85rem' }}>Arquétipo: {analysis.archetype}</strong>
+              <p style={{ fontSize: '0.85rem', color: 'var(--md-on-surface-variant)', marginBottom: 0 }}>
+                {analysis.battlePlan}
+              </p>
             </div>
           </section>
         </>
